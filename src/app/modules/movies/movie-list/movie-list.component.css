@@ -1,0 +1,15 @@
+.poster{
+	width: 10rem;
+	height: auto;
+}
+
+.col{
+	width: 6rem;
+}
+
+.comma::after{
+	content: ', '
+}
+.comma:last-of-type::after{
+	content: none !important;
+}

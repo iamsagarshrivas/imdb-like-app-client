@@ -1,0 +1,116 @@
+<div class="row">
+	<div class="col-6">
+		<form [formGroup]="movieForm">
+			<div class="form-group">
+				<label for="name" class="control-label">Movie Name*</label>
+				<input type="text" [ngClass]="validator.isInvalid(movieName)" formControlName="movieName" class="form-control">
+			</div>
+
+			<div class="form-group">
+				<label for="name" class="label">Year of release*</label>
+				<input type="number" [ngClass]="validator.isInvalid(releaseYear)" formControlName="releaseYear" class="form-control">
+			</div>
+
+			<div class="form-group">
+				<label for="name" class="label">Plot*</label>
+				<textarea type="text" [ngClass]="validator.isInvalid(plot)" formControlName="plot" class="form-control" rows="3"></textarea>
+			</div>
+
+			<div class="form-group">
+				<label class="label">Poster*</label>
+				<div class="custom-file">
+					<input type="file" accept="image/*" class="custom-file-input" id="posterImage"
+					#fileInput
+					name="selectedFile"
+					formControlName="poster"
+					[ngClass]="validator.isInvalid(poster)"
+                    single
+                    (click)="fileInput.value = null"
+                    value=""
+                    (change)="onFileChange($event)">
+					<label class="custom-file-label" for="customFile">{{labelName}}</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="name" class="label">Cast*</label>
+				
+				<div class="row">					
+					<ngx-select-dropdown
+					class="col-9"
+					[ngClass]="validator.isInvalid(cast)"
+					[config]="configDropdown"
+					[multiple]="true"
+					formControlName="cast"
+					[options]="actorList"
+					>
+				</ngx-select-dropdown>
+				
+				<button class="btn btn-success btn-sm col-2 ml-auto" data-toggle="modal" data-target="#exampleModalCenter" (click)='initialiseActorForm()'>+actor</button>
+			</div>
+
+			</div>
+
+			<input type="submit" class="btn btn-sm btn-success" value="Save" (click)="onSave()">
+			<input type="reset" class="btn btn-sm btn-primary" value="Cancel" (click)="onCancel()">
+
+		</form>
+	</div>
+	<div class="col-6" *ngIf="imageSrc">
+		<img class="w-100 mt-2" [src]="transform(imageSrc)" alt="No preview">
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLongTitle">Add actor</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			<form [formGroup]="actorForm">
+				<div class="form-group row">
+					<label for="name" class="col-3 label">Actor Name</label>
+					<input type="text" [ngClass]="validator.isInvalid(actorName)" formControlName="actorName" class="form-control col-8">
+				</div>
+				<div class="form-group row">
+					<label for="sex" class="col-3 label">Sex</label>
+					<div class="form-check">
+						<label class="md-check">
+							  <input type="radio" value="female" name="gender" formControlName="gender">
+							  Female
+							</label>
+					</div>
+					<div class="form-check">
+						<label class="md-check">
+								<input type="radio" value="male" name="gender" formControlName="gender">     
+								Male
+							</label>
+					</div>
+					<div class="form-check">
+						<label class="md-check">
+								<input type="radio" value="others" name="gender" formControlName="gender">     
+								Others
+							</label>
+					</div>					
+				</div>
+				<div class="form-group row">
+					<label for="dob" class="col-3 label">Date of birth</label>
+					<input class="form-control col-8" [ngClass]="validator.isInvalid(dob)" type="date" value="2011-08-19" formControlName='dob'>
+				</div>
+				<div class="form-group row">
+					<label for="bio" class="col-3 label">Bio</label>
+					<textarea rows="3" [ngClass]="validator.isInvalid(bio)" class="form-control col-8" formControlName="bio"></textarea>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" #closeButton class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-success" (click)="onActorSave()">Done</button>
+		</div>
+	  </div>
+	</div>
+  </div>

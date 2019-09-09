@@ -1,0 +1,16 @@
+<div class="row">
+	<div class="col-12 flex-center" *ngIf='addButton; else backButton'>
+		<h3 class="">Top 10 movies 2018</h3>
+		<button class="btn btn-success ml-auto" routerLink='add-movie'  (click)="addButton = false">+movie</button>
+	</div>
+	<ng-template #backButton>
+		<div class="col-12 flex-center">
+			<h3 class="">Add New Movie</h3>
+			<button class="btn btn-success ml-auto" routerLink='movie-list' (click)="addButton = true">Back</button>
+
+		</div>
+	</ng-template>
+</div>
+<div class="mt-3">
+	<router-outlet></router-outlet>
+</div>

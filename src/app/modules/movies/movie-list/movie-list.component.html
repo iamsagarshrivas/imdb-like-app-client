@@ -1,0 +1,90 @@
+<div class="row">
+	<div class="col-12">
+		<!-- <table>
+
+		</table> -->
+		<table class="table table-bordered">
+			<thead class="black white-text">
+				<tr>
+					<th scope="col">Poster</th>
+					<th scope="col">Movie Name</th>
+					<th scope="col">Year of Release</th>
+					<th scope="col" class="w-25">Plot</th>
+					<th scope="col">Cast</th>
+					<th scope="col">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let movie of movieList">
+					<td scope="col" class="col">
+						<img class="poster" [src]="movie.poster || '../../../../assets/images/default_image.png'"
+							alt="">
+					<td scope="col">{{movie.movieName || '-'}}</td>
+					<td scope="col">{{movie.releaseYear || '-'}}</td>
+					<td scope="col">{{movie.plot || '-'}}</td>
+					<td scope="col"><span class="comma"
+							*ngFor="let actor of movie.cast">{{actor.actorName || '-'}}</span></td>
+					<td scope="col"><button class="border-0 btn p-0 shadow-none" (click)="editMovie(movie)"
+							data-toggle="modal" data-target="#editMovieFormModal"><i class="fas fa-pen"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editMovieFormModal" tabindex="-1" role="dialog" aria-labelledby="editMovieFormModalTitle"
+	aria-hidden="true">
+
+	<!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="movieEditForm">
+					<div class="form-group row pr-3">
+						<label for="movieName" class="col-3">Movie Name*</label>
+						<input [ngClass]="validator.isInvalid(movieName)" type="text" class="form-control col-9"
+							formControlName="movieName">
+					</div>
+
+					<div class="form-group row pr-3">
+						<label for="releaseYear" class="col-3">Year of release</label>
+						<input [ngClass]="validator.isInvalid(releaseYear)" type="text" class="form-control col-9"
+							formControlName="releaseYear">
+					</div>
+
+					<div class="form-group row pr-3">
+						<label for="plot" class="col-3">Plot*</label>
+						<textarea [ngClass]="validator.isInvalid(plot)" type="text" class="form-control col-9"
+							formControlName="plot" rows="3"></textarea>
+					</div>
+
+					<div class="form-group row">
+						<label for="name" class="label col-3">Cast*</label>
+						<!-- <input type="text"	formControlName="cast" > -->
+						<ngx-select-dropdown 
+							class="col-9" 
+							[ngClass]="validator.isInvalid(cast)"
+							[config]="configDropdown" 
+							[multiple]="true" 
+							[formControl]="cast"
+							[options]="actorList"
+						>
+						</ngx-select-dropdown>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" #closeButton class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" (click)="saveEditForm()">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
